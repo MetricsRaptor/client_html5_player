@@ -89,6 +89,7 @@ export class MetricsRaptorTracker {
     }
 }
 
-export const trackVideo = (element: HTMLVideoElement, options: object) => {
+export const trackVideo = (element?: HTMLVideoElement, options?: object) => {
+    if (!element || !options) return null;
     return new MetricsRaptorTracker(element, options);
 }
