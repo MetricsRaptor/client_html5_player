@@ -1,6 +1,6 @@
-import { io } from "socket.io-client";
+import { BrowserCore, BrowserCoreConfig } from "@metricsraptor/browser-core/src/browser-core"
 
-export class MetricsRaptorTracker {
+export class Player {
 
     socket: any;
     element: HTMLVideoElement;
@@ -15,26 +15,10 @@ export class MetricsRaptorTracker {
         this.setup();
     }
 
-    setup() {
-        if (!this.element) return;
-        this.events.forEach(event => {
-            this.element.addEventListener(event, this.emitEvent)
-        });
-        this.socket = io(`wss://metricsraptor-evobk.ondigitalocean.app`, { path: "/rooms/ws", transports: ["websocket"] });
-        setInterval(() => {
-            // Ping current state :)
-            this.emitEvent();
-        }, 1000);
-        return this;
+    public setup() {
     }
 
-    cleanUp() {
-        if (!this.element) return;
-        this.events.forEach(event => {
-            this.element.removeEventListener(event, this.emitEvent)
-        });
-        this.socket?.disconnect();
-        return this;
+    public cleanUp() {
     }
 
     emitEvent = (event?: Event) => {
@@ -89,7 +73,33 @@ export class MetricsRaptorTracker {
     }
 }
 
-export const trackVideo = (element?: HTMLVideoElement, options?: object) => {
-    if (!element || !options) return null;
-    return new MetricsRaptorTracker(element, options);
+export class HTML5Player {
+
+    core: BrowserCore;
+    element: HTMLVideoElement;
+
+    constructor(videoElement: HTMLVideoElement, config: BrowserCoreConfig) {
+        this.core = new BrowserCore(config);
+        this.element = videoElement;
+        this.setup();
+    }
+
+    async setup() {
+        await this.core.validateKey();
+        this.element.addEventListener("pause", this.pauseEvent)
+        this.element.addEventListener("ended", this.endedEvent)
+        this.element.addEventListener("playing", this.playingEvent)
+    }
+
+    private pauseEvent(event: Event) {
+
+    }
+
+    private endedEvent(event: Event) {
+
+    }
+
+    private playingEvent(event: Event) {
+
+    }
 }

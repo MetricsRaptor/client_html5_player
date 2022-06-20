@@ -1,5 +1,5 @@
 {
-  "name": "metricsraptor",
+  "name": "@metricsraptor/client_html5_player",
   "version": "0.0.1",
   "author": "Bas Wilson",
   "license": "MIT",
@@ -13,7 +13,7 @@
   "private": false,
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/baswilson/metricsraptor.git",
+    "url": "git+https://github.com/metricsraptor",
     "directory": ""
   },
   "keywords": [
@@ -37,9 +37,9 @@
   },
   "description": "MetricsRaptor JavaScript package",
   "bugs": {
-    "url": "https://github.com/baswilson/metricsraptor/issues"
+    "url": "https://github.com/metricsraptor"
   },
-  "homepage": "https://github.com/baswilson/metricsraptor#readme",
+  "homepage": "https://github.com/metricsraptor",
   "bin": {
     "metricsraptor": "bin/index.js"
   }
