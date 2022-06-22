@@ -1,5 +1,4 @@
-import { BrowserCore, BrowserCoreConfig } from "@metricsraptor/browser-core/src/browser-core"
-
+import { BrowserCore, BrowserCoreConfig } from "@metricsraptor/browser-core"
 export class Player {
 
     socket: any;
@@ -86,20 +85,46 @@ export class HTML5Player {
 
     async setup() {
         await this.core.validateKey();
-        this.element.addEventListener("pause", this.pauseEvent)
-        this.element.addEventListener("ended", this.endedEvent)
         this.element.addEventListener("playing", this.playingEvent)
+        this.element.addEventListener("play", this.resumeEvent)
+        this.element.addEventListener("pause", this.pauseEvent)
+        this.element.addEventListener("seeked", this.seekedEvent)
+        this.element.addEventListener("ended", this.endedEvent)
     }
 
-    private pauseEvent(event: Event) {
-
+    // Playback is ready to start after having been paused or delayed due to lack of data.
+    private playingEvent = (event: Event) => {
+        this.core.registerMoment({
+            momentType: "player_play"
+        })
     }
 
-    private endedEvent(event: Event) {
-
+    // 	Playback has begun.
+    private resumeEvent = (event: Event) => {
+        this.core.registerMoment({
+            momentType: "player_resume"
+        })
     }
 
-    private playingEvent(event: Event) {
-
+    // Playback has been paused.
+    private pauseEvent = (event: Event) => {
+        this.core.registerMoment({
+            momentType: "player_pause"
+        })
     }
+
+    // 	A seek operation completed.
+    private seekedEvent = (event: Event) => {
+        this.core.registerMoment({
+            momentType: "player_seeked"
+        })
+    }
+
+    // Playback has stopped because the end of the media was reached.
+    private endedEvent = (event: Event) => {
+        this.core.registerMoment({
+            momentType: "player_ended"
+        })
+    }
+
 }
